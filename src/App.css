@@ -4,8 +4,10 @@
   background-color: #282c34;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-content: flex-start;
+  align-items: stretch;
   font-size: calc(10px + 2vmin);
   color: white;
 }

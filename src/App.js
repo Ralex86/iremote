@@ -1,10 +1,11 @@
 // @flow
 import React from 'react';
 import './App.css';
-import styled from '@emotion/styled';
+// import styled from "@emotion/styled";
 import socketIOClient from 'socket.io-client';
 
-import Remote from './components/Remote';
+import SlideController from './components/Remote';
+import PointerController from './components/PointerController';
 
 type DeviceOrientationEvent = {
   alpha: number,
@@ -18,6 +19,7 @@ type State = {
   beta: ?number,
   gamma: ?number,
   currentIndex: number,
+  isPointerDisplayed: boolean,
 };
 
 class App extends React.Component<*, State> {
@@ -26,15 +28,14 @@ class App extends React.Component<*, State> {
     beta: null,
     gamma: null,
     currentIndex: 0,
+    isPointerDisplayed: false,
   };
 
   endpoint = '/remote';
-  // endpoint = 'https://172.20.10.7:3001/remote';
   socket = socketIOClient(this.endpoint);
 
   componentDidMount() {
     window.addEventListener('deviceorientation', this.handleOrientation);
-    //this.socket.on('message', data => this.setState({response: data}));
     this.socket.emit('slideIndex', {
       index: 0,
     });
@@ -45,8 +46,7 @@ class App extends React.Component<*, State> {
   }
 
   handleOrientation = (event: DeviceOrientationEvent) => {
-    const {alpha, beta, gamma} = event;
-
+    const { alpha, beta, gamma } = event;
     this.socket.emit('position', {
       alpha: alpha.toFixed(2),
       beta: beta.toFixed(2),
@@ -69,26 +69,28 @@ class App extends React.Component<*, State> {
     });
   };
 
+  displayPointer = (display: boolean) => {
+    this.socket.emit('displayPointer', {
+      display: display,
+    });
+    this.setState({
+      isPointerDisplayed: display,
+    });
+    console.log(display);
+  };
+
   render() {
-    const {alpha, beta, gamma, currentIndex} = this.state;
-    //console.log(response);
+    const { currentIndex } = this.state;
     return (
       <div className="App">
-        <Remote requestIndex={this.requestIndex} currentIndex={currentIndex} />
-        <Container>
-          <span>alpha: {alpha && alpha.toFixed(2)}</span>
-          <span>beta: {beta && beta.toFixed(2)}</span>
-          <span>gamma: {gamma && gamma.toFixed(2)}</span>
-        </Container>
+        <SlideController
+          requestIndex={this.requestIndex}
+          currentIndex={currentIndex}
+        />
+        <PointerController displayPointer={this.displayPointer} />
       </div>
     );
   }
 }
-
-const Container = styled.div`
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-`;
 
 export default App;
