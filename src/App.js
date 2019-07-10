@@ -6,6 +6,7 @@ import socketIOClient from 'socket.io-client';
 
 import SlideController from './components/Remote';
 import PointerController from './components/PointerController';
+import {ReactComponent as Islide} from './icons/iSlide_bleu.svg'
 
 type DeviceOrientationEvent = {
   alpha: number,
@@ -76,7 +77,6 @@ class App extends React.Component<*, State> {
     this.setState({
       isPointerDisplayed: display,
     });
-    console.log(display);
   };
 
   render() {
@@ -88,6 +88,7 @@ class App extends React.Component<*, State> {
           currentIndex={currentIndex}
         />
         <PointerController displayPointer={this.displayPointer} />
+        <Islide/>
       </div>
     );
   }

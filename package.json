@@ -2,7 +2,7 @@
   "name": "iremote",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://172.20.10.7:3001",
+  "proxy": "https://147.210.240.43",
   "dependencies": {
     "@emotion/core": "^10.0.14",
     "@emotion/styled": "^10.0.14",

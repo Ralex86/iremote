@@ -34,7 +34,6 @@ const RootStyled = styled.div`
   justify-content: center;
   flex: 0, 1, auto;
   width: 100%;
-  ${'' /* border: 1px solid green; */}
 `;
 
 export default PointerController;
